@@ -7,7 +7,7 @@ use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Dcodegroup\LaravelMyobOauth\MyobTokenService;
 use Dcodegroup\LaravelMyobOauth\Provider\Myob;
 
-class XeroController extends Controller
+class MyobController extends Controller
 {
     public function __construct(
         private Myob $myobClient

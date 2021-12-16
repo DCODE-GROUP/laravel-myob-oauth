@@ -9,7 +9,7 @@ use Dcodegroup\LaravelMyobOauth\Provider\Myob;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class XeroCallbackController extends Controller
+class MyobCallbackController extends Controller
 {
     public function __construct(
         private Myob $myobClient

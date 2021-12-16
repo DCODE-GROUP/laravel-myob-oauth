@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Dcodegroup\LaravelMyobOauth\Provider\Myob;
 use Illuminate\Http\RedirectResponse;
 
-class XeroAuthController extends Controller
+class MyobAuthController extends Controller
 {
     public function __construct(
         private Myob $myobClient

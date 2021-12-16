@@ -3,8 +3,6 @@
 namespace Dcodegroup\LaravelMyobOauth;
 
 use Exception;
-use XeroPHP\Application;
-use XeroPHP\Remote\Exception\NotFoundException;
 
 class BaseMyobService
 {

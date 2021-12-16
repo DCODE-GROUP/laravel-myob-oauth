@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelXeroOauthServiceProvider extends ServiceProvider
+class LaravelMyobOauthServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application events.
@@ -38,19 +38,19 @@ class LaravelXeroOauthServiceProvider extends ServiceProvider
             ]);
         });
 
-        $this->app->bind(Application::class, function () {
-            $client = resolve(myob::class);
+        $this->app->bind(Myob::class, function () {
+            $client = resolve(Myob::class);
 
             try {
                 $token = MyobTokenService::getToken();
 
                 if (! $token) {
-                    return new Application('fake_id', 'fake_tenant');
+                    return new Myob('fake_id', 'fake_tenant');
                 }
 
                 $latest = MyobToken::latestToken();
             } catch (Exception $e) {
-                return new Application('fake_id', 'fake_tenant');
+                return new Myob('fake_id', 'fake_tenant');
             }
 
             $tenantId = $latest->current_tenant_id;

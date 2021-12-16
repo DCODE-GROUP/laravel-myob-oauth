@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Illuminate\Http\RedirectResponse;
 
-class SwitchXeroTenantController extends Controller
+class SwitchMyobTenantController extends Controller
 {
     public function __invoke(string $tenantId): RedirectResponse
     {
