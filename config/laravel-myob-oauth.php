@@ -10,7 +10,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel MYOB Oauth Path
+    | Laravel MYOB oAuth Path
     |--------------------------------------------------------------------------
     |
     | This is the URI path where Laravel Xero oAuth will be accessible from. Feel free
@@ -36,5 +36,18 @@ return [
 
     'middleware' => ['web', 'auth'],
     'exclude_middleware_for_callback' => ['auth'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | App Layout
+    |--------------------------------------------------------------------------
+    |
+    | The name of the base layout to wrap the pages in.
+    | The exposed routes will have to know the layout of the app in order to
+    | Appear to look like the rest of the site.
+    |
+    */
+
+    'admin_app_layout' => env('LARAVEL_MYOB_ADMIN_APP_LAYOUT', 'layouts.admin'),
 
 ];
