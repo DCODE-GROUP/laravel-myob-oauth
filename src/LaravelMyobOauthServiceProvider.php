@@ -5,7 +5,8 @@ namespace Dcodegroup\LaravelMyobOauth;
 use Dcodegroup\LaravelMyobOauth\Commands\InstallCommand;
 use Dcodegroup\LaravelMyobOauth\Exceptions\MyobOrganisationExpired;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
-use Dcodegroup\LaravelMyobOauth\Provider\Myob;
+use Dcodegroup\LaravelMyobOauth\Provider\Application;
+use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Exception;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -30,45 +31,47 @@ class LaravelMyobOauthServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-myob-oauth.php', 'laravel-myob-oauth');
 
-        $this->app->singleton(Myob::class, function () {
-            return new Myob([
+        $this->app->singleton(Provider::class, function () {
+            return new Provider([
                 'clientId' => config('laravel-myob-oauth.oauth.client_id'),
                 'clientSecret' => config('laravel-myob-oauth.oauth.client_secret'),
                 'redirectUri' => route(config('laravel-myob-oauth.path').'.callback'),
             ]);
         });
 
-        $this->app->bind(Myob::class, function () {
-            $client = resolve(Myob::class);
+        $this->app->bind(Application::class, function () {
+            $client = resolve(Provider::class);
 
             try {
                 $token = MyobTokenService::getToken();
 
                 if (! $token) {
-                    return new Myob('fake_id', 'fake_tenant');
+                    return new Application(new Provider, 'fake_id', 'username', 'password');
                 }
 
                 $latest = MyobToken::latestToken();
             } catch (Exception $e) {
-                return new Myob('fake_id', 'fake_tenant');
-            }
+                return new Application(new Provider, 'fake_id', 'username', 'password');           }
 
-            $tenantId = $latest->current_tenant_id;
+            //$tenantId = $latest->current_tenant_id;
+            //
+            //if (is_null($latest->current_tenant_id)) {
+            //    $tenant = head($client->getTenants($token));
+            //    $tenantId = $tenant->tenantId;
+            //}
 
-            if (is_null($latest->current_tenant_id)) {
-                $tenant = head($client->getTenants($token));
-                $tenantId = $tenant->tenantId;
-            }
+            //if (! $tenantId) {
+            //    throw new MyobOrganisationExpired('There is no configured organisation or the organisation is expired!');
+            //}
 
-            if (! $tenantId) {
-                throw new myobOrganisationExpired('There is no configured organisation or the organisation is expired!');
-            }
-
-            return new Application($token->getToken(), $tenantId);
+            /**
+             * Provider feels wrong here
+             */
+            return new Application(new Provider, $token->getToken());
         });
 
-        $this->app->bind(BasemyobService::class, function () {
-            return new BasemyobService(resolve(Application::class));
+        $this->app->bind(BaseMyobService::class, function () {
+            return new BaseMyobService(resolve(Application::class));
         });
     }
 
@@ -86,7 +89,7 @@ class LaravelMyobOauthServiceProvider extends ServiceProvider
      */
     protected function offerPublishing()
     {
-        if (! class_exists('CreatemyobTokensTable')) {
+        if (! class_exists('CreateMyobTokensTable')) {
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([

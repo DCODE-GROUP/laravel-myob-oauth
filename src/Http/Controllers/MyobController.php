@@ -5,33 +5,30 @@ namespace Dcodegroup\LaravelMyobOauth\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Dcodegroup\LaravelMyobOauth\MyobTokenService;
-use Dcodegroup\LaravelMyobOauth\Provider\Myob;
+use Dcodegroup\LaravelMyobOauth\Provider\Application;
 
 class MyobController extends Controller
 {
     public function __construct(
-        private Myob $myobClient
+        private Application $myobClient
     ) {
     }
 
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     * @throws \Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob
-     * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
-     */
     public function __invoke()
     {
-        $tenants = [];
-        $token = MyobTokenService::getToken();
+        //dd($this->myobClient);
+        //$tenants = [];
+        //$token = MyobTokenService::getToken();
         $latestToken = MyobToken::latestToken();
-        if ($token) {
-            $tenants = $this->myobClient->getTenants($token);
-        }
+        //if ($token) {
+        //    $tenants = $this->myobClient->getTenants($token);
+        //}
 
         return view('myob-oauth-views::index', [
             'token' => $latestToken,
-            'tenants' => $tenants,
-            'currentTenantId' => $latestToken->current_tenant_id ?? null,
+            'user' => $this->myobClient->provider->createResourceOwner(),
+            //'tenants' => $tenants,
+            //'currentTenantId' => $latestToken->current_tenant_id ?? null,
         ]);
     }
 }

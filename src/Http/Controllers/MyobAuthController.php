@@ -3,13 +3,13 @@
 namespace Dcodegroup\LaravelMyobOauth\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Dcodegroup\LaravelMyobOauth\Provider\Myob;
+use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Illuminate\Http\RedirectResponse;
 
 class MyobAuthController extends Controller
 {
     public function __construct(
-        private Myob $myobClient
+        private Provider $myobClient
     ) {
     }
 

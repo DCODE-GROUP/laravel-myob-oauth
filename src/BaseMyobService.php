@@ -2,23 +2,22 @@
 
 namespace Dcodegroup\LaravelMyobOauth;
 
+use Dcodegroup\LaravelMyobOauth\Provider\Application;
 use Exception;
 
 class BaseMyobService
 {
-    public Application $xeroClient;
-
-    public function __construct(Application $xeroClient)
-    {
-        $this->xeroClient = $xeroClient;
+    public function __construct(
+        public Application $myobClient
+    ) {
     }
 
     public function getModel($model, $guid = null, $parameter = null)
     {
         if ($guid) {
-            $response = $this->xeroClient->loadByGUID($model, $guid);
+            $response = $this->myobClient->loadByGUID($model, $guid);
         } else {
-            $response = $this->xeroClient->load($model);
+            $response = $this->myobClient->load($model);
         }
 
         if ($parameter) {
@@ -35,9 +34,9 @@ class BaseMyobService
     public function searchModel($model, array $where, $guids = null, $parameter = null)
     {
         if (! is_null($guids)) {
-            $response = $this->xeroClient->loadByGUIDs($model, $guids);
+            $response = $this->myobClient->loadByGUIDs($model, $guids);
         } else {
-            $response = $this->xeroClient->load($model);
+            $response = $this->myobClient->load($model);
         }
 
         foreach ($where as $p => $value) {
@@ -53,7 +52,7 @@ class BaseMyobService
 
     public function saveModel($model, array $parameters = [], array $objects = [])
     {
-        $request = new $model($this->xeroClient);
+        $request = new $model($this->myobClient);
 
         foreach ($parameters as $parameter => $value) {
             $request->{'set'.$parameter}($value);
@@ -83,10 +82,10 @@ class BaseMyobService
     public function updateModel($model, $guid, array $parameters = [], array $objects = [])
     {
         if (is_object($guid)) {
-            $request = new $model($this->xeroClient);
+            $request = new $model($this->myobClient);
             $request->{'set'.$guid->identifier}($guid->guid);
         } else {
-            $request = $this->xeroClient->loadByGUID($model, $guid);
+            $request = $this->myobClient->loadByGUID($model, $guid);
         }
 
         foreach ($parameters as $parameter => $value) {

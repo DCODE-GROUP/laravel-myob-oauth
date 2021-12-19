@@ -2,12 +2,12 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Provider;
 
-use Calcinai\OAuth2\Client\Provider\Exception\XeroProviderException;
 use Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob;
+use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\ResponseInterface;
 
-class Myob extends \League\OAuth2\Client\Provider\AbstractProvider
+class Provider extends AbstractProvider
 {
     /**
      * Returns the base URL for authorizing a client.
@@ -69,6 +69,7 @@ class Myob extends \League\OAuth2\Client\Provider\AbstractProvider
             //'x-myobapi-cftoken' => 'ABCta353c5R6YXRvcjo',
             'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
             'x-myobapi-version' => 'v2',
+            'Accept' => 'application/json'
         ];
     }
 }

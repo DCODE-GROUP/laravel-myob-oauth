@@ -2,10 +2,10 @@
 
 return [
     'oauth' => [
-        'client_id'     => env('MYOB_CLIENT_ID', ''),
+        'client_id' => env('MYOB_CLIENT_ID', ''),
         'client_secret' => env('MYOB_CLIENT_SECRET', ''),
         'domainPrefix' => env('MYOB_DOMAIN_PREFIX', ''),
-        'scopes'        => env('MYOB_SCOPE', 'CompanyFile'),
+        'scopes' => env('MYOB_SCOPE', 'CompanyFile'),
     ],
 
     /*
@@ -34,7 +34,10 @@ return [
     |
     */
 
-    'middleware' => ['web', 'auth'],
+    'middleware' => [
+        'web',
+        'auth',
+    ],
     'exclude_middleware_for_callback' => ['auth'],
 
     /*

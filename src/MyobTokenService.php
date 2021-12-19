@@ -2,9 +2,9 @@
 
 namespace Dcodegroup\LaravelMyobOauth;
 
-use Calcinai\OAuth2\Client\Provider\Xero;
 use Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
+use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Illuminate\Support\Facades\Schema;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -29,13 +29,13 @@ class MyobTokenService
         $oauth2Token = $token->toOAuth2Token();
 
         if ($oauth2Token->hasExpired()) {
-            $oauth2Token = self::getAccessTokenFromXero($oauth2Token);
+            $oauth2Token = self::getAccessTokenFromMyob($oauth2Token);
 
             if (! MyobToken::isValidTokenFormat($oauth2Token)) {
                 throw new UnauthorizedMyob('Token is invalid or the provided token has invalid format!');
             }
 
-            MyobToken::create(array_merge($oauth2Token->jsonSerialize(), ['current_tenant_id' => $token->current_tenant_id]));
+            MyobToken::create($oauth2Token->jsonSerialize());
         }
 
         return $oauth2Token;
@@ -44,9 +44,9 @@ class MyobTokenService
     /**
      * @return mixed
      */
-    private static function getAccessTokenFromXero(AccessToken $token)
+    private static function getAccessTokenFromMyob(AccessToken $token)
     {
-        return resolve(Xero::class)->getAccessToken('refresh_token', [
+        return resolve(Provider::class)->getAccessToken('refresh_token', [
             'refresh_token' => $token->getRefreshToken(),
         ]);
     }
