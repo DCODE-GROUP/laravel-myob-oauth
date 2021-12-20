@@ -68,10 +68,10 @@ So your application should have its own MyobService extend this base class as th
 
 namespace App\Services\Myob;
 
-use Dcodegroup\LaravelMyobOauth\BaseMyobService;
+use Dcodegroup\LaravelMyobOauth\MyobService;
 use XeroPHP\Models\Accounting\Contact;
 
-class MyobService extends BaseMyobService
+class MyobService extends MyobService
 {
     /**
      * @inheritDoc
