@@ -8,9 +8,7 @@ use Illuminate\Http\RedirectResponse;
 
 class MyobAuthController extends Controller
 {
-    public function __construct(
-        private Provider $myobClient
-    ) {
+    public function __construct(private Provider $myobClient) {
     }
 
     public function __invoke(): RedirectResponse

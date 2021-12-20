@@ -9,16 +9,11 @@ use Dcodegroup\LaravelMyobOauth\Provider\Application;
 
 class MyobController extends Controller
 {
-    public function __construct(
-        private Application $myobClient
-    ) {
+    public function __construct(private Application $myobClient) {
     }
 
     public function __invoke()
     {
-        //dd($this->myobClient);
-        //$tenants = [];
-        //$token = MyobTokenService::getToken();
         $latestToken = MyobToken::latestToken();
         //if ($token) {
         //    $tenants = $this->myobClient->getTenants($token);
@@ -26,7 +21,7 @@ class MyobController extends Controller
 
         return view('myob-oauth-views::index', [
             'token' => $latestToken,
-            'user' => $this->myobClient->provider->createResourceOwner(),
+            'user' => [],
             //'tenants' => $tenants,
             //'currentTenantId' => $latestToken->current_tenant_id ?? null,
         ]);

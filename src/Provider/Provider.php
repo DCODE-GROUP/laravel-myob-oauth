@@ -66,7 +66,6 @@ class Provider extends AbstractProvider
     {
         return [
             'Authorization' => 'Bearer '.$token->getToken(),
-            //'x-myobapi-cftoken' => 'ABCta353c5R6YXRvcjo',
             'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
             'x-myobapi-version' => 'v2',
             'Accept' => 'application/json'

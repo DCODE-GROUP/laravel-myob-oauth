@@ -10,11 +10,7 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class MyobTokenService
 {
-    /**
-     * @return null|\League\OAuth2\Client\Token\AccessToken|mixed
-     *@throws \Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob
-     */
-    public static function getToken()
+    public static function getToken(): ?AccessToken
     {
         if (! Schema::hasTable((new MyobToken())->getTable())) {
             return null;
@@ -41,10 +37,7 @@ class MyobTokenService
         return $oauth2Token;
     }
 
-    /**
-     * @return mixed
-     */
-    private static function getAccessTokenFromMyob(AccessToken $token)
+    private static function getAccessTokenFromMyob(AccessToken $token): AccessToken
     {
         return resolve(Provider::class)->getAccessToken('refresh_token', [
             'refresh_token' => $token->getRefreshToken(),

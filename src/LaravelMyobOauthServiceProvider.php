@@ -70,8 +70,8 @@ class LaravelMyobOauthServiceProvider extends ServiceProvider
             return new Application(new Provider, $token->getToken());
         });
 
-        $this->app->bind(BaseMyobService::class, function () {
-            return new BaseMyobService(resolve(Application::class));
+        $this->app->bind(MyobService::class, function () {
+            return new MyobService(resolve(Application::class));
         });
     }
 

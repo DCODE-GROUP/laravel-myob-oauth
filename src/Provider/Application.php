@@ -4,17 +4,13 @@ namespace Dcodegroup\LaravelMyobOauth\Provider;
 
 class Application
 {
-
-
     public function __construct(
-        //protected Provider $provider,
+        protected Provider $provider,
         protected string $token,
         protected ?string $username = null,
         protected ?string $password = null,
     ) {
     }
-
-
 
     public function fetch($uri)
     {
