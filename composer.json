@@ -25,9 +25,7 @@
   ],
   "require": {
     "php": "^8.0",
-    "calcinai/xero-php": "^2.2",
     "laravel/framework": "^7.0  | ^8.0",
-    "xeroapi/xero-php-oauth2": "^2.1",
     "league/oauth2-client": "1.*|2.*"
   },
   "require-dev": {
