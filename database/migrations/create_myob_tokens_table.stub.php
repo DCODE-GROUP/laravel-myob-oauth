@@ -15,7 +15,6 @@ class CreateMyobTokensTable extends Migration
     {
         Schema::create('myob_tokens', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('id_token');
             $table->string('token_type')->nullable();
             $table->text('access_token');
             $table->text('refresh_token')->nullable();
