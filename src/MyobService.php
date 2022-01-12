@@ -36,7 +36,7 @@ class MyobService
 
     public function getTaxCodes(): Collection
     {
-        return $this->myobClient->fetch('/GeneralLedger/TaxCode');
+        return collect($this->myobClient->fetch('/GeneralLedger/TaxCode'));
     }
 
     public function getInvoiceByNumber(string $type, string $number)
