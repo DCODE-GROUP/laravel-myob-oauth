@@ -64,11 +64,16 @@ class Provider extends AbstractProvider
 
     protected function getAuthorizationHeaders($token = null): array
     {
-        return [
-            'Authorization' => 'Bearer '.$token->getToken(),
+        $headers = [
             'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
             'x-myobapi-version' => 'v2',
             'Accept' => 'application/json'
         ];
+
+        if ($token) {
+            $headers['Authorization'] = 'Bearer '.$token->getToken();
+        }
+
+        return $headers;
     }
 }

@@ -3,113 +3,44 @@
 namespace Dcodegroup\LaravelMyobOauth;
 
 use Dcodegroup\LaravelMyobOauth\Provider\Application;
-use Exception;
+use Illuminate\Support\Collection;
 
 class MyobService
 {
     public function __construct(public Application $myobClient) {}
-//
-//    public function getModel($model, $guid = null, $parameter = null)
-//    {
-//        if ($guid) {
-//            $response = $this->myobClient->loadByGUID($model, $guid);
-//        } else {
-//            $response = $this->myobClient->load($model);
-//        }
-//
-//        if ($parameter) {
-//            $response = $response->first()->{'get'.$parameter}();
-//        } else {
-//            if (! $guid) {
-//                $response = $response->execute();
-//            }
-//        }
-//
-//        return ! $guid ? collect($response) : $response;
-//    }
-//
-//    public function searchModel($model, array $where, $guids = null, $parameter = null)
-//    {
-//        if (! is_null($guids)) {
-//            $response = $this->myobClient->loadByGUIDs($model, $guids);
-//        } else {
-//            $response = $this->myobClient->load($model);
-//        }
-//
-//        foreach ($where as $p => $value) {
-//            $response->where($p, $value);
-//        }
-//
-//        if ($parameter) {
-//            return $response->first()->{'get'.$parameter}();
-//        }
-//
-//        return $response->first();
-//    }
-//
-//    public function saveModel($model, array $parameters = [], array $objects = [])
-//    {
-//        $request = new $model($this->myobClient);
-//
-//        foreach ($parameters as $parameter => $value) {
-//            $request->{'set'.$parameter}($value);
-//        }
-//
-//        foreach ($objects as $object => $value) {
-//            if (is_array($value)) {
-//                foreach ($value as $key => $item) {
-//                    $request->{'add'.(is_string($key) ? $key : $object)}($item);
-//                }
-//            } else {
-//                $request->{'add'.$object}($value);
-//            }
-//        }
-//
-//        try {
-//            $request->save();
-//        } catch (Exception | NotFoundException $e) {
-//            report($e);
-//
-//            return $e;
-//        }
-//
-//        return $request;
-//    }
-//
-//    public function updateModel($model, $guid, array $parameters = [], array $objects = [])
-//    {
-//        if (is_object($guid)) {
-//            $request = new $model($this->myobClient);
-//            $request->{'set'.$guid->identifier}($guid->guid);
-//        } else {
-//            $request = $this->myobClient->loadByGUID($model, $guid);
-//        }
-//
-//        foreach ($parameters as $parameter => $value) {
-//            $request->{'set'.$parameter}($value);
-//            $request->setDirty($parameter);
-//        }
-//
-//        foreach ($objects as $object => $value) {
-//            if (is_array($value)) {
-//                foreach ($value as $key => $item) {
-//                    $request->{'add'.$key}($item);
-//                }
-//            } else {
-//                $request->{'add'.$object}($value);
-//            }
-//
-//            $request->setDirty($object);
-//        }
-//
-//        try {
-//            $request->save();
-//        } catch (Exception | NotFoundException $e) {
-//            report($e);
-//
-//            return $e;
-//        }
-//
-//        return $request;
-//    }
+
+    public function getCompanies(): Collection
+    {
+        $response = $this->myobClient
+            ->withBaseUrl(
+                'https://api.myob.com',
+                fn (Application $client) => $client->fetch('/accountright')
+            );
+
+        return collect($response);
+    }
+
+    public function getCompanyDetails($id): array
+    {
+        return $this->myobClient
+            ->withBaseUrl(
+                'https://api.myob.com',
+                fn (Application $client) => $client->fetch("/accountright/{$id}")
+            );
+    }
+
+    public function getClientByDisplayID(string $displayId)
+    {
+        return $this->myobClient->fetchFirst("/Contact/Customer?\$filter=DisplayID eq '$displayId'");
+    }
+
+    public function getTaxCodes(): Collection
+    {
+        return $this->myobClient->fetch('/GeneralLedger/TaxCode');
+    }
+
+    public function getInvoiceByNumber(string $type, string $number)
+    {
+        return $this->myobClient->fetchFirst("/Sale/Invoice/$type?\$filter=Number eq '$number'");
+    }
 }

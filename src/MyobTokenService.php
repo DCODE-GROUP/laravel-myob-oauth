@@ -10,7 +10,7 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class MyobTokenService
 {
-    public static function getToken(): ?AccessToken
+    public static function getToken(): ?MyobToken
     {
         if (! Schema::hasTable((new MyobToken())->getTable())) {
             return null;
@@ -31,10 +31,12 @@ class MyobTokenService
                 throw new UnauthorizedMyob('Token is invalid or the provided token has invalid format!');
             }
 
-            MyobToken::create($oauth2Token->jsonSerialize());
+            $token = $token->replicate()
+                ->fill($oauth2Token->jsonSerialize());
+            $token->save();
         }
 
-        return $oauth2Token;
+        return $token;
     }
 
     private static function getAccessTokenFromMyob(AccessToken $token): AccessToken

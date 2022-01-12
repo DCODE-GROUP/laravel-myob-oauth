@@ -2,64 +2,91 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Provider;
 
+use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Http;
+
 class Application
 {
+    protected ?string $baseUrl = null;
+
     public function __construct(
         protected Provider $provider,
-        protected string $token,
-        protected ?string $username = null,
-        protected ?string $password = null,
+        protected ?MyobToken $token = null,
     ) {
     }
 
     public function fetch($uri)
     {
-        return $this->provider->getApiResponse($uri, $this->token, $this->username, $this->password);
+        return $this->buildRequest()
+            ->get($uri)
+            ->json();
     }
 
-    public function fetchFullResponse($uri)
+    public function fetchFirst($uri)
     {
-        return $this->provider->getFullResponse(
-            $uri,
-            $this->token,
-            $this->username,
-            $this->password
-        );
+        return $this->buildRequest()
+            ->get($uri)
+            ->json('Items.0');
     }
 
-    public function fetchWithPagination($uri)
-    {
-        $result = $this->fetch($uri);
-        if (! isset($result->Items)) {
-            return $result;
-        }
-
-        $items = $result->Items;
-        if (! empty($result->NextPageLink)) {
-            $result = $this->fetchWithPagination($result->NextPageLink);
-            $items = array_merge($items, $result);
-        }
-
-        return $items;
-    }
+//    public function fetchWithPagination($uri)
+//    {
+//        $result = $this->fetch($uri);
+//        if (! isset($result->Items)) {
+//            return $result;
+//        }
+//
+//        $items = $result->Items;
+//        if (! empty($result->NextPageLink)) {
+//            $result = $this->fetchWithPagination($result->NextPageLink);
+//            $items = array_merge($items, $result);
+//        }
+//
+//        return $items;
+//    }
 
     public function post($URI, $data)
     {
-        return $this->provider->post('/accountright/'.$URI, $data, $this->token, $this->username, $this->password);
+        return $this->buildRequest()
+            ->post($URI, $data)
+            ->json();
     }
 
     public function put($URI, $data)
     {
-        return $this->provider->put('/accountright/'.$URI, $data, $this->token, $this->username, $this->password);
+        return $this->buildRequest()
+            ->put($URI, $data)
+            ->json();
     }
 
     public function delete($URI)
     {
-        return $this->provider->delete('/accountright/'.$URI, $this->token, $this->username, $this->password);
+        return $this->buildRequest()
+            ->delete($URI)
+            ->json();
     }
 
-    public function postFullResponse($URI, $data)
+    public function withBaseUrl(string $baseUrl, \Closure $callback)
     {
-        return $this->provider->postFullResponse('/accountright/'.$URI, $data, $this->token, $this->username, $this->password);
+        $oldBaseUrl = $this->baseUrl;
+
+        $this->baseUrl = $baseUrl;
+
+        $returnValue = $callback($this);
+
+        $this->baseUrl = $oldBaseUrl;
+
+        return $returnValue;
+    }
+
+    protected function buildRequest(): PendingRequest
+    {
+        return Http::withToken($this->token->toOAuth2Token()->getToken())
+            ->baseUrl($this->baseUrl ?? $this->token->current_tenant_id)
+            ->withHeaders([
+                'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
+                'x-myobapi-version' => config('laravel-myob-oauth.api_version')
+            ]);
     }
 }
