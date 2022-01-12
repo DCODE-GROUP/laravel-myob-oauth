@@ -46,28 +46,13 @@ class LaravelMyobOauthServiceProvider extends ServiceProvider
                 $token = MyobTokenService::getToken();
 
                 if (! $token) {
-                    return new Application(new Provider, 'fake_id', 'username', 'password');
+                    return new Application($client);
                 }
 
-                $latest = MyobToken::latestToken();
+                return new Application($client, $token);
             } catch (Exception $e) {
-                return new Application(new Provider, 'fake_id', 'username', 'password');           }
-
-            //$tenantId = $latest->current_tenant_id;
-            //
-            //if (is_null($latest->current_tenant_id)) {
-            //    $tenant = head($client->getTenants($token));
-            //    $tenantId = $tenant->tenantId;
-            //}
-
-            //if (! $tenantId) {
-            //    throw new MyobOrganisationExpired('There is no configured organisation or the organisation is expired!');
-            //}
-
-            /**
-             * Provider feels wrong here
-             */
-            return new Application(new Provider, $token->getToken());
+                return new Application($client);
+            }
         });
 
         $this->app->bind(MyobService::class, function () {
