@@ -4,6 +4,7 @@ namespace Dcodegroup\LaravelMyobOauth\Provider;
 
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class Application
@@ -30,21 +31,21 @@ class Application
             ->json('Items.0');
     }
 
-//    public function fetchWithPagination($uri)
-//    {
-//        $result = $this->fetch($uri);
-//        if (! isset($result->Items)) {
-//            return $result;
-//        }
-//
-//        $items = $result->Items;
-//        if (! empty($result->NextPageLink)) {
-//            $result = $this->fetchWithPagination($result->NextPageLink);
-//            $items = array_merge($items, $result);
-//        }
-//
-//        return $items;
-//    }
+    public function fetchAll($uri)
+    {
+        $result = $this->fetch($uri);
+
+        $items = Arr::get($result, 'Items', []);
+
+        $nextPageLink = Arr::get($result, 'NextPageLink');
+        while (!empty($nextPageLink)) {
+            $result = $this->fetch($nextPageLink);
+            $items = array_merge($items, Arr::get($result, 'Items', []));
+            $nextPageLink = Arr::get($result, 'Items', []);
+        }
+
+        return $items;
+    }
 
     public function post($URI, $data)
     {
