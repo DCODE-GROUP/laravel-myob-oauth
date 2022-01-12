@@ -8,6 +8,8 @@ return [
         'scopes' => env('MYOB_SCOPE', 'CompanyFile'),
     ],
 
+    'api_version' => env('MYOB_API_VERSION', 'v2'),
+
     /*
     |--------------------------------------------------------------------------
     | Laravel MYOB oAuth Path
