@@ -2,12 +2,12 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 
 class MyobCallbackController extends Controller
 {

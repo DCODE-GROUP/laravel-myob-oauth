@@ -2,9 +2,9 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Controller;
 
 class MyobAuthController extends Controller
 {
