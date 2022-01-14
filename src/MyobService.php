@@ -44,8 +44,14 @@ class MyobService
         return $this->myobClient->fetchFirst("/Sale/Invoice/$type?\$filter=Number eq '$number'");
     }
 
-    public function getAccounts(): Collection
+    public function getAccounts(?string $type = null): Collection
     {
-        return collect($this->myobClient->fetchAll('/GeneralLedger/Account'));
+        $url = '/GeneralLedger/Account';
+
+        if ($type) {
+            $url .= "?\$filter=Classification eq '$type'";
+        }
+
+        return collect($this->myobClient->fetchAll($url));
     }
 }
