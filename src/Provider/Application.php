@@ -2,6 +2,7 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Provider;
 
+use Closure;
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Arr;
@@ -74,7 +75,7 @@ class Application
             ->json();
     }
 
-    public function withBaseUrl(string $baseUrl, \Closure $callback)
+    public function withBaseUrl(string $baseUrl, Closure $callback)
     {
         $oldBaseUrl = $this->baseUrl;
 
