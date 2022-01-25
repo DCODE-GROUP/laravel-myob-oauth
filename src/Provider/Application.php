@@ -17,21 +17,27 @@ class Application
     ) {
     }
 
-    public function fetch($uri)
+    public function raw(string $uri)
+    {
+        return $this->buildRequest()
+                    ->get($uri);
+    }
+
+    public function fetch(string $uri)
     {
         return $this->buildRequest()
             ->get($uri)
             ->json();
     }
 
-    public function fetchFirst($uri)
+    public function fetchFirst(string $uri)
     {
         return $this->buildRequest()
             ->get($uri)
             ->json('Items.0');
     }
 
-    public function fetchAll($uri)
+    public function fetchAll(string $uri)
     {
         $result = $this->fetch($uri);
 
@@ -47,21 +53,21 @@ class Application
         return $items;
     }
 
-    public function post($URI, $data)
+    public function post(string $URI, $data)
     {
         return $this->buildRequest()
             ->post($URI, $data)
             ->json();
     }
 
-    public function put($URI, $data)
+    public function put(string $URI, $data)
     {
         return $this->buildRequest()
             ->put($URI, $data)
             ->json();
     }
 
-    public function delete($URI)
+    public function delete(string $URI)
     {
         return $this->buildRequest()
             ->delete($URI)
