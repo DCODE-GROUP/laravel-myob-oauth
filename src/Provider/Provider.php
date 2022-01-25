@@ -67,7 +67,7 @@ class Provider extends AbstractProvider
         $headers = [
             'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
             'x-myobapi-version' => 'v2',
-            'Accept' => 'application/json'
+            'Accept' => 'application/json',
         ];
 
         if ($token) {

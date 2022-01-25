@@ -14,7 +14,7 @@ class UpdateTenantController extends Controller
         $details = $myobService->getCompanyDetails($id);
 
         MyobToken::latestToken()->update([
-            'current_tenant_id' => Arr::get($details, 'CompanyFile.Uri')
+            'current_tenant_id' => Arr::get($details, 'CompanyFile.Uri'),
         ]);
 
         return redirect()->back();

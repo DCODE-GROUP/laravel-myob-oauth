@@ -8,7 +8,8 @@ use Illuminate\Routing\Controller;
 
 class MyobController extends Controller
 {
-    public function __construct(protected MyobService $myobService) {
+    public function __construct(protected MyobService $myobService)
+    {
     }
 
     public function __invoke()

@@ -38,7 +38,7 @@ class Application
         $items = Arr::get($result, 'Items', []);
 
         $nextPageLink = Arr::get($result, 'NextPageLink');
-        while (!empty($nextPageLink)) {
+        while (! empty($nextPageLink)) {
             $result = $this->fetch($nextPageLink);
             $items = array_merge($items, Arr::get($result, 'Items', []));
             $nextPageLink = Arr::get($result, 'Items', []);
@@ -87,7 +87,7 @@ class Application
             ->baseUrl($this->baseUrl ?? $this->token->current_tenant_id)
             ->withHeaders([
                 'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
-                'x-myobapi-version' => config('laravel-myob-oauth.api_version')
+                'x-myobapi-version' => config('laravel-myob-oauth.api_version'),
             ]);
     }
 }

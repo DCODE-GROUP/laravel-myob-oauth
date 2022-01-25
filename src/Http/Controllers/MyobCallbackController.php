@@ -11,7 +11,9 @@ use Illuminate\Routing\Controller;
 
 class MyobCallbackController extends Controller
 {
-    public function __construct(private Provider $myobClient) {}
+    public function __construct(private Provider $myobClient)
+    {
+    }
 
     /**
      * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
