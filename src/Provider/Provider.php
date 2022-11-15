@@ -2,7 +2,6 @@
 
 namespace Dcodegroup\LaravelMyobOauth\Provider;
 
-use ErrorException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -13,7 +12,7 @@ class Provider extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
-    private $cftokenSent = false;
+    //private $cftokenSent = false;
 
     /*
  * options:
@@ -25,16 +24,16 @@ class Provider extends AbstractProvider
  *     redirectUri=xxx
  */
 
-    public function __construct(array $options = [], array $collaborators = [])
-    {
-        if (! isset($options['username']) || ! isset($options['password']) || ! isset($options['companyName'])) {
-            throw new ErrorException('Company Name, username or password not set');
-        }
-
-        $this->companyName = $options['companyName'];
-        $this->cftoken = base64_encode("{$options['username']}:{$options['password']}");
-        parent::__construct($options, $collaborators);
-    }
+    //public function __construct(array $options = [], array $collaborators = [])
+    //{
+    //    if (! isset($options['username']) || ! isset($options['password']) || ! isset($options['companyName'])) {
+    //        throw new ErrorException('Company Name, username or password not set');
+    //    }
+    //
+    //    $this->companyName = $options['companyName'];
+    //    $this->cftoken = base64_encode("{$options['username']}:{$options['password']}");
+    //    parent::__construct($options, $collaborators);
+    //}
 
     /**
      * Returns the base URL for authorizing a client.
@@ -105,26 +104,17 @@ class Provider extends AbstractProvider
      */
     protected function getDefaultHeaders($token = null)
     {
-        $headers = ['x-myobapi-version' => 'v2',
-            'x-myobapi-key' => $this->clientId, ];
-        if (! ($this->cftokenSent)) {
-            $headers['x-myobapi-cftoken'] = $this->cftoken;
-        }
-        $this->cftokenSent = true;
-
-        return $headers;
+        return [
+            'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
+            'x-myobapi-version' => 'v2',
+            'Accept' => 'application/json',
+        ];
     }
 
     protected function getAuthorizationHeaders($token = null): array
     {
-        //$headers = [
-        //    'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
-        //    'x-myobapi-version' => 'v2',
-        //    'Accept' => 'application/json',
-        //];
-        //
         //if ($token) {
-        $headers['Authorization'] = 'Bearer '.$token->getToken();
+        return ['Authorization' => 'Bearer '.$token->getToken()];
         //}
 
         //return $headers;
