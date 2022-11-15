@@ -23,7 +23,6 @@ class Provider extends AbstractProvider
      * Returns the base URL for requesting an access token.
      *
      * @param  array  $params
-     *
      * @return string
      */
     public function getBaseAccessTokenUrl(array $params): string
@@ -46,8 +45,8 @@ class Provider extends AbstractProvider
     /**
      * @param  \Psr\Http\Message\ResponseInterface  $response
      * @param $data
-     *
      * @return void
+     *
      * @throws \Dcodegroup\LaravelMyobOauth\Exceptions\UnauthorizedMyob
      */
     protected function checkResponse(ResponseInterface $response, $data)

@@ -3,8 +3,6 @@
 namespace Dcodegroup\LaravelMyobOauth;
 
 use Dcodegroup\LaravelMyobOauth\Commands\InstallCommand;
-use Dcodegroup\LaravelMyobOauth\Exceptions\MyobOrganisationExpired;
-use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Dcodegroup\LaravelMyobOauth\Provider\Application;
 use Dcodegroup\LaravelMyobOauth\Provider\Provider;
 use Exception;
