@@ -4,7 +4,7 @@
     <div>
         <h2>@lang('myob-oauth-translations::myob.label.header')</h2>
 
-        @if (!$token || $token->toOAuth2Token()->hasExpired())
+        @if (is_null($token) || $token->toOAuth2Token()->hasExpired())
             <div>
                 <p><i>@lang('myob-oauth-translations::myob.status.unauthorized')</i></p>
                 <a href="{{ route('myob.auth') }}"
