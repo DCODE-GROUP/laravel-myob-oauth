@@ -18,7 +18,7 @@ class MyobController extends Controller
         $latestToken = MyobToken::latestToken();
 
         $companies = [];
-        if ($latestToken) {
+        if ($latestToken instanceof MyobToken) {
             $companies = $this->myobService->getCompanies();
         }
 

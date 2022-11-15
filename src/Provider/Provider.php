@@ -12,29 +12,6 @@ class Provider extends AbstractProvider
 {
     use BearerAuthorizationTrait;
 
-    //private $cftokenSent = false;
-
-    /*
- * options:
- *     username=xxx
- *     password=xxx
- *     companyName=xxx
- *     clientId=xxx
- *     clientSecret=xxx
- *     redirectUri=xxx
- */
-
-    //public function __construct(array $options = [], array $collaborators = [])
-    //{
-    //    if (! isset($options['username']) || ! isset($options['password']) || ! isset($options['companyName'])) {
-    //        throw new ErrorException('Company Name, username or password not set');
-    //    }
-    //
-    //    $this->companyName = $options['companyName'];
-    //    $this->cftoken = base64_encode("{$options['username']}:{$options['password']}");
-    //    parent::__construct($options, $collaborators);
-    //}
-
     /**
      * Returns the base URL for authorizing a client.
      *
@@ -78,17 +55,10 @@ class Provider extends AbstractProvider
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
-        //if ($response->getStatusCode() >= 400) {
-        //    throw new UnauthorizedMyob(isset($data['error']) ? $data['error'] : $response->getReasonPhrase(), $response->getStatusCode(), $response);
-        //}
         if ($response->getStatusCode() >= 400) {
             $error = $data['ErrorCode'];
             $errorDescription = $data['Errors'][0]['Name']."\n".$data['Errors'][0]['Message'];
-            throw new IdentityProviderException(
-                "MYOB API Error {$response->getBody()}: {$data['ErrorCode']}: {$data['Errors'][0]['Name']} ({$data['Errors'][0]['Message']})",
-                $response->getStatusCode(),
-                $response
-            );
+            throw new IdentityProviderException("MYOB API Error {$response->getBody()}: {$data['ErrorCode']}: {$data['Errors'][0]['Name']} ({$data['Errors'][0]['Message']})", $response->getStatusCode(), $response);
         }
     }
 
@@ -113,10 +83,6 @@ class Provider extends AbstractProvider
 
     protected function getAuthorizationHeaders($token = null): array
     {
-        //if ($token) {
         return ['Authorization' => 'Bearer '.$token->getToken()];
-        //}
-
-        //return $headers;
     }
 }

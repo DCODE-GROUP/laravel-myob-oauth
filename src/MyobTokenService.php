@@ -18,7 +18,7 @@ class MyobTokenService
 
         $token = MyobToken::latestToken();
 
-        if (! $token) {
+        if (! $token instanceof MyobToken) {
             return null;
         }
 
@@ -31,8 +31,7 @@ class MyobTokenService
                 throw new UnauthorizedMyob('Token is invalid or the provided token has invalid format!');
             }
 
-            $token = $token->replicate()
-                ->fill($oauth2Token->jsonSerialize());
+            $token = $token->replicate()->fill($oauth2Token->jsonSerialize());
             $token->save();
         }
 
