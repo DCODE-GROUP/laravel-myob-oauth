@@ -36,10 +36,6 @@
       "Dcodegroup\\LaravelMyobOauth\\": "src"
     }
   },
-  "scripts": {
-    "psalm": "vendor/bin/psalm",
-    "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-  },
   "config": {
     "sort-packages": true
   },
