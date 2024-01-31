@@ -21,6 +21,7 @@
         @endif
         <h3>@lang('myob-oauth-translations::myob.label.accounts')</h3>
         <div>
+            @if(collect($companies)->isNotEmpty())
             @foreach($companies as $company)
                 @php($isCurrent = $company['Uri'] === $currentCompanyId)
                 <form action="{{ route('myob.tenant.update', $company['Id']) }}"
@@ -41,6 +42,9 @@
                     </div>
                 </form>
             @endforeach
+            @else
+                <p>Your account has no companies.</p>
+            @endif
         </div>
 
     </div>
