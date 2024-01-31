@@ -21,7 +21,7 @@ class Application
     public function raw(string $uri)
     {
         return $this->buildRequest()
-                    ->get($uri);
+            ->get($uri);
     }
 
     public function fetch(string $uri)

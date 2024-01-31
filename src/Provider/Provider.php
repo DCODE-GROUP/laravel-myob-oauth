@@ -14,8 +14,6 @@ class Provider extends AbstractProvider
 
     /**
      * Returns the base URL for authorizing a client.
-     *
-     * @return string
      */
     public function getBaseAuthorizationUrl(): string
     {
@@ -24,9 +22,6 @@ class Provider extends AbstractProvider
 
     /**
      * Returns the base URL for requesting an access token.
-     *
-     * @param  array  $params
-     * @return string
      */
     public function getBaseAccessTokenUrl(array $params): string
     {
@@ -48,7 +43,6 @@ class Provider extends AbstractProvider
     /**
      * Check a provider response for errors.
      *
-     * @param  ResponseInterface  $response
      * @param  array|string  $data
      *
      * @throws IdentityProviderException
