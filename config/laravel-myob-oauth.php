@@ -40,6 +40,7 @@ return [
         'web',
         'auth',
     ],
+
     'exclude_middleware_for_callback' => ['auth'],
 
     /*
@@ -54,5 +55,17 @@ return [
     */
 
     'admin_app_layout' => env('LARAVEL_MYOB_ADMIN_APP_LAYOUT', 'layouts.admin'),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | App Debug
+    |--------------------------------------------------------------------------
+    |
+    | Should we log any debug
+    |
+    */
+
+    'debug' => env('LARAVEL_MYOB_DEBUG', false),
 
 ];

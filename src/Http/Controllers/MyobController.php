@@ -22,6 +22,10 @@ class MyobController extends Controller
             $companies = $this->myobService->getCompanies();
         }
 
+        if (config('laravel-myob-oauth.debug')) {
+            ld('companies', $companies);
+        }
+
         return view('myob-oauth-views::index', [
             'token' => $latestToken,
             'companies' => $companies,

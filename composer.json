@@ -26,7 +26,8 @@
   "require": {
     "php": "^8.0|^8.1",
     "laravel/framework": "^8.0|^9.0",
-    "league/oauth2-client": "1.*|2.*"
+    "league/oauth2-client": "1.*|2.*",
+    "spatie/laravel-log-dumper": "^1.4"
   },
   "require-dev": {
     "laravel/pint": "^1.2"
