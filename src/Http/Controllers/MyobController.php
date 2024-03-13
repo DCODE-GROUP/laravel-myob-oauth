@@ -4,6 +4,7 @@ namespace Dcodegroup\LaravelMyobOauth\Http\Controllers;
 
 use Dcodegroup\LaravelMyobOauth\Models\MyobToken;
 use Dcodegroup\LaravelMyobOauth\MyobService;
+use Dcodegroup\LaravelMyobOauth\MyobTokenService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Routing\Controller;
 
@@ -15,7 +16,7 @@ class MyobController extends Controller
 
     public function __invoke(): View
     {
-        $latestToken = MyobToken::latestToken();
+        $latestToken = MyobTokenService::getToken();
 
         $companies = [];
         if ($latestToken instanceof MyobToken) {
