@@ -71,6 +71,7 @@ class Provider extends AbstractProvider
         return [
             'x-myobapi-key' => config('laravel-myob-oauth.oauth.client_id'),
             'x-myobapi-version' => 'v2',
+            'x-myobapi-cftoken' => $this->generateCfToken(),
             'Accept' => 'application/json',
         ];
     }
@@ -78,5 +79,10 @@ class Provider extends AbstractProvider
     protected function getAuthorizationHeaders($token = null): array
     {
         return ['Authorization' => 'Bearer '.$token->getToken()];
+    }
+
+    protected function generateCfToken(): string
+    {
+        return base64_encode(config('laravel-myob-oauth.oauth.client_id').':'.config('laravel-myob-oauth.oauth.client_secret'));
     }
 }
