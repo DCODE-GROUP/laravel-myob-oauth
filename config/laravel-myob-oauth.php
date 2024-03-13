@@ -56,7 +56,6 @@ return [
 
     'admin_app_layout' => env('LARAVEL_MYOB_ADMIN_APP_LAYOUT', 'layouts.admin'),
 
-
     /*
     |--------------------------------------------------------------------------
     | App Debug
