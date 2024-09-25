@@ -12,7 +12,7 @@ class MyobTokenService
 {
     public static function getToken(): ?MyobToken
     {
-        if (! Schema::hasTable((new MyobToken())->getTable())) {
+        if (! Schema::hasTable((new MyobToken)->getTable())) {
             return null;
         }
 

@@ -15,8 +15,7 @@ class Application
     public function __construct(
         protected Provider $provider,
         protected ?MyobToken $token = null,
-    ) {
-    }
+    ) {}
 
     public function raw(string $uri)
     {

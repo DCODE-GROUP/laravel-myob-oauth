@@ -4,6 +4,4 @@ namespace Dcodegroup\LaravelMyobOauth\Exceptions;
 
 use Exception;
 
-class MyobOrganisationExpired extends Exception
-{
-}
+class MyobOrganisationExpired extends Exception {}
