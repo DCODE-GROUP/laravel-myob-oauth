@@ -7,9 +7,7 @@ use Illuminate\Support\Collection;
 
 class MyobService
 {
-    public function __construct(public Application $myobClient)
-    {
-    }
+    public function __construct(public Application $myobClient) {}
 
     public function getCompanies(): Collection
     {

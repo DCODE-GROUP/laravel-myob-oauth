@@ -4,6 +4,4 @@ namespace Dcodegroup\LaravelMyobOauth\Exceptions;
 
 use Exception;
 
-class UnauthorizedMyob extends Exception
-{
-}
+class UnauthorizedMyob extends Exception {}

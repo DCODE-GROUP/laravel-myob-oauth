@@ -8,9 +8,7 @@ use Illuminate\Routing\Controller;
 
 class MyobAuthController extends Controller
 {
-    public function __construct(protected Provider $myobClient)
-    {
-    }
+    public function __construct(protected Provider $myobClient) {}
 
     public function __invoke(): RedirectResponse
     {
